@@ -42,32 +42,11 @@ public class DirectedGraph {
         return vertexSuccessorNames;
     }
 
-    public void addRelation(String originName, String destinationName) {
-        Edge e = addEdgeToGraph(originName, destinationName);
-
-        if (containsVertex(originName)) {
-            vertexMap.get(originName).addOutgoingEdgeName(e.getName());
-        } else {
-            Vertex v1 = new Vertex(originName);
-            v1.addOutgoingEdgeName(e.getName());
-            vertexMap.put(originName, v1);
-        }
-
-        if (containsVertex(destinationName)) {
-            vertexMap.get(destinationName).addIncomingEdgeName(e.getName());
-        } else {
-            Vertex v2 = new Vertex(destinationName);
-            v2.addIncomingEdgeName(e.getName());
-            vertexMap.put(destinationName, v2);
-        }
-
-    }
-
     public boolean containsVertex(String name) {
         return vertexMap.containsKey(name);
     }
 
-    private Edge addEdgeToGraph(String originName, String destinationName) {
+    protected Edge addEdgeToGraph(String originName, String destinationName) {
         Edge e = new Edge(originName.concat(destinationName), originName, destinationName);
         edgeMap.put(e.getName(), e);
         return e;

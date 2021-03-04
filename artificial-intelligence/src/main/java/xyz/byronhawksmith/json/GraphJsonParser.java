@@ -9,37 +9,34 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import xyz.byronhawksmith.graph.DirectedGraph;
+import xyz.byronhawksmith.graph.Tree;
 
 public class GraphJsonParser {
 
-    private DirectedGraph graph;
-
-    public GraphJsonParser() {
-        graph = new DirectedGraph();
+    private GraphJsonParser() {
     }
 
-    public DirectedGraph generateGraphFromJsonFile(String path) {
+    public static Tree generateTreeFromJsonFile(String path) {
+        Tree tree = new Tree();
         Reader reader = initFileReader(path);
         JSONObject jsonObject = new JSONObject(new JSONTokener(reader));
         JSONArray jsonArray = jsonObject.getJSONArray("graph");
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject relationJson = jsonArray.getJSONObject(i);
-            graph.addRelation(relationJson.getString("origin"), relationJson.getString("destination"));
+            tree.addRelation(relationJson.getString("origin"), relationJson.getString("destination"));
         }
 
-        return graph;
+        return tree;
     }
 
-    public Reader initFileReader(String path) {
+    public static Reader initFileReader(String path) {
         try {
             Reader reader;
             String filePath = new File("").getAbsolutePath();
             reader = new FileReader(filePath.concat(path));
             return reader;
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
