@@ -24,7 +24,12 @@ public class GraphJsonParser {
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject relationJson = jsonArray.getJSONObject(i);
+
             tree.addRelation(relationJson.getString("origin"), relationJson.getString("destination"));
+
+            if (relationJson.getBoolean("bidirectional")) {
+                tree.addRelation(relationJson.getString("destination"), relationJson.getString("origin"));
+            }
         }
 
         return tree;
