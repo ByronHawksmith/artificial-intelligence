@@ -25,10 +25,16 @@ public class GraphJsonParser {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject relationJson = jsonArray.getJSONObject(i);
 
-            tree.addRelation(relationJson.getString("origin"), relationJson.getString("destination"));
+            String originName = relationJson.getString("origin");
+            String destinationName = relationJson.getString("destination");
+            int weightOne = relationJson.getInt("weightOne");
+            int weightTwo = relationJson.getInt("weightTwo");
+            boolean bidirectional = relationJson.getBoolean("bidirectional");
 
-            if (relationJson.getBoolean("bidirectional")) {
-                tree.addRelation(relationJson.getString("destination"), relationJson.getString("origin"));
+            tree.addWeightedRelation(originName, destinationName, weightOne);
+
+            if (bidirectional) {
+                tree.addWeightedRelation(destinationName, originName, weightTwo);
             }
         }
 

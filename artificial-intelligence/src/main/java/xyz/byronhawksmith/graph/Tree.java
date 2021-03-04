@@ -28,7 +28,15 @@ public class Tree extends DirectedGraph {
 
     public void addRelation(String originName, String destinationName) {
         Edge e = addEdgeToGraph(originName, destinationName);
+        addRelation(originName, destinationName, e);
+    }
 
+    public void addWeightedRelation(String originName, String destinationName, int weight) {
+        Edge e = addWeightedEdgeToGraph(originName, destinationName, weight);
+        addRelation(originName, destinationName, e);
+    }
+
+    private void addRelation(String originName, String destinationName, Edge e) {
         if (containsVertex(originName)) {
             vertexMap.get(originName).addOutgoingEdgeName(e.getName());
         } else {
@@ -44,7 +52,6 @@ public class Tree extends DirectedGraph {
             v2.addIncomingEdgeName(e.getName());
             vertexMap.put(destinationName, v2);
         }
-
     }
 
 }

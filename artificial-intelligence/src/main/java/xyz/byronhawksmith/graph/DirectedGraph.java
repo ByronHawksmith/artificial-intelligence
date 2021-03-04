@@ -63,6 +63,12 @@ public class DirectedGraph {
         return e;
     }
 
+    protected Edge addWeightedEdgeToGraph(String originName, String destinationName, int weight) {
+        Edge e = new Edge(originName.concat(destinationName), weight, originName, destinationName);
+        edgeMap.put(e.getName(), e);
+        return e;
+    }
+
     public boolean containsEdge(String name) {
         return edgeMap.containsKey(name);
     }

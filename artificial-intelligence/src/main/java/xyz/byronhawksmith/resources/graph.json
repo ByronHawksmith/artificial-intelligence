@@ -5,161 +5,161 @@
             "destination":"Zerind",
             "bidirectional": true,
             "weightOne": 75,
-            "weightTwo": null
+            "weightTwo": 75
         },
         {
             "origin":"Arad",
             "destination":"Sibu",
             "bidirectional": true,
             "weightOne": 140,
-            "weightTwo": null
+            "weightTwo": 140
         },
         {
             "origin":"Arad",
             "destination":"Timisoara",
             "bidirectional": true,
             "weightOne": 118,
-            "weightTwo": null
+            "weightTwo": 118
         },
         {
             "origin":"Zerind",
             "destination":"Oradea",
             "bidirectional": true,
             "weightOne": 71,
-            "weightTwo": null
+            "weightTwo": 71
         },
         {
             "origin":"Oradea",
             "destination":"Sibu",
             "bidirectional": true,
             "weightOne": 151,
-            "weightTwo": null
+            "weightTwo": 151
         },
         {
             "origin":"Sibu",
             "destination":"Fagaras",
             "bidirectional": true,
             "weightOne": 99,
-            "weightTwo": null
+            "weightTwo": 99
         },
         {
             "origin":"Sibu",
             "destination":"Rimnicu Vilcea",
             "bidirectional": true,
             "weightOne": 80,
-            "weightTwo": null
+            "weightTwo": 80
         },
         {
             "origin":"Timisoara",
             "destination":"Lugoj",
             "bidirectional": true,
             "weightOne": 111,
-            "weightTwo": null
+            "weightTwo": 111
         },
         {
             "origin":"Lugoj",
             "destination":"Mehadia",
             "bidirectional": true,
             "weightOne": 70,
-            "weightTwo": null
+            "weightTwo": 70
         },
         {
             "origin":"Mehadia",
             "destination":"Drobeta",
             "bidirectional": true,
             "weightOne": 75,
-            "weightTwo": null
+            "weightTwo": 75
         },
         {
             "origin":"Drobeta",
             "destination":"Craiova",
             "bidirectional": true,
             "weightOne": 120,
-            "weightTwo": null
+            "weightTwo": 120
         },
         {
             "origin":"Craiova",
             "destination":"Rimnicu Vilcea",
             "bidirectional": true,
             "weightOne": 146,
-            "weightTwo": null
+            "weightTwo": 146
         },
         {
             "origin":"Craiova",
             "destination":"Pitesti",
             "bidirectional": true,
             "weightOne": 97,
-            "weightTwo": null
+            "weightTwo": 97
         },
         {
             "origin":"Rimnicu Vilcea",
             "destination":"Pitesti",
             "bidirectional": true,
             "weightOne": 97,
-            "weightTwo": null
+            "weightTwo": 97
         },
         {
             "origin":"Fagaras",
             "destination":"Bucharest",
             "bidirectional": true,
             "weightOne": 211,
-            "weightTwo": null
+            "weightTwo": 211
         },
         {
             "origin":"Pitesti",
             "destination":"Bucharest",
             "bidirectional": true,
             "weightOne": 101,
-            "weightTwo": null
+            "weightTwo": 101
         },
         {
             "origin":"Bucharest",
             "destination":"Giurgiu",
             "bidirectional": true,
             "weightOne": 90,
-            "weightTwo": null
+            "weightTwo": 90
         },
         {
             "origin":"Bucharest",
             "destination":"Urziceni",
             "bidirectional": true,
             "weightOne": 85,
-            "weightTwo": null
+            "weightTwo": 85
         },
         {
             "origin":"Urziceni",
             "destination":"Hirsova",
             "bidirectional": true,
             "weightOne": 98,
-            "weightTwo": null
+            "weightTwo": 98
         },
         {
             "origin":"Hirsova",
             "destination":"Eforie",
             "bidirectional": true,
             "weightOne": 86,
-            "weightTwo": null
+            "weightTwo": 86
         },
         {
             "origin":"Urziceni",
             "destination":"Vaslui",
             "bidirectional": true,
             "weightOne": 142,
-            "weightTwo": null
+            "weightTwo": 142
         },
         {
             "origin":"Vaslui",
             "destination":"Iasi",
             "bidirectional": true,
             "weightOne": 92,
-            "weightTwo": null
+            "weightTwo": 92
         },
         {
             "origin":"Iasi",
             "destination":"Neamt",
             "bidirectional": true,
             "weightOne": 87,
-            "weightTwo": null
+            "weightTwo": 87
         }
     ]
 }
