@@ -2,6 +2,7 @@ package xyz.byronhawksmith;
 
 import xyz.byronhawksmith.graph.Tree;
 import xyz.byronhawksmith.json.GraphJsonParser;
+import xyz.byronhawksmith.pathfinder.PathData;
 import xyz.byronhawksmith.pathfinder.TreePathFinder;
 
 public class App {
@@ -13,8 +14,8 @@ public class App {
 
                 TreePathFinder pathFinder = new TreePathFinder(tree);
 
-                String result = pathFinder.breadthFirstSearch("Bucharest", "Arad");
+                PathData result = pathFinder.breadthFirstSearch("Bucharest", "Arad");
 
-                System.out.println(result);
+                System.out.println(result.toString());
         }
 }

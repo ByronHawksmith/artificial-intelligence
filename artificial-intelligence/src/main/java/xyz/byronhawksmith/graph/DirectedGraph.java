@@ -42,6 +42,17 @@ public class DirectedGraph {
         return vertexSuccessorNames;
     }
 
+    public List<String> getVertexPredecessorNames(String name) {
+        List<String> incomingEdgeNames = vertexMap.get(name).getIncomingEdgeNames();
+        List<String> vertexPredecessorNames = new ArrayList<>();
+
+        for (String edgeName : incomingEdgeNames) {
+            vertexPredecessorNames.add(getEdge(edgeName).getOriginVertexName());
+        }
+
+        return vertexPredecessorNames;
+    }
+
     public boolean containsVertex(String name) {
         return vertexMap.containsKey(name);
     }

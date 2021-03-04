@@ -30,19 +30,24 @@ public class TreePathFinder extends PathFinder {
     }
 
     // https://en.wikipedia.org/wiki/Breadth-first_search
-    public String breadthFirstSearch(String goalVertexName, String startVertexName) {
-        String result = "";
+    public PathData breadthFirstSearch(String goalVertexName, String startVertexName) {
+        PathData pathData = new PathData();
         Queue<String> q = new LinkedList<>();
         this.explored.add(startVertexName);
         q.add(startVertexName);
 
         while (!q.isEmpty()) {
-            String v = q.poll();
-            if (v.equals(goalVertexName)) {
-                result = v;
+            String vertexName = q.poll();
+
+            if (vertexName.equals(goalVertexName)) {
+                pathData = backtrackFromDestinationToOrigin(goalVertexName, startVertexName, pathData);
                 break;
             }
-            for (String edgeName : tree.getVertexSuccessorNames(v)) {
+
+            // Update searchHistory before looking at successors
+            pathData.addVertexNameToSearchHistory(vertexName);
+
+            for (String edgeName : tree.getVertexSuccessorNames(vertexName)) {
                 if (!explored.contains(edgeName)) {
                     explored.add(edgeName);
                     q.add(edgeName);
@@ -51,7 +56,20 @@ public class TreePathFinder extends PathFinder {
         }
 
         resetInternalVariables();
-        return result;
+        return pathData;
+    }
+
+    public PathData backtrackFromDestinationToOrigin(String goalVertexName, String startVertexName, PathData pathData) {
+        String currentVertexName = goalVertexName;
+
+        while (!currentVertexName.equals(startVertexName)) {
+            pathData.addVertexNameToPath(currentVertexName);
+            currentVertexName = tree.getVertexPredecessorNames(currentVertexName).get(0);
+        }
+
+        pathData.addVertexNameToPath(currentVertexName);
+
+        return pathData;
     }
 
     private void resetInternalVariables() {
