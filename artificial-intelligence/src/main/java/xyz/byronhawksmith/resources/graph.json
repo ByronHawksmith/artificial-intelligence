@@ -1,0 +1,165 @@
+{
+    "graph": [
+        {
+            "origin":"Arad",
+            "destination":"Zerind",
+            "bidirectional": true,
+            "weightOne": 75,
+            "weightTwo": null
+        },
+        {
+            "origin":"Arad",
+            "destination":"Sibu",
+            "bidirectional": true,
+            "weightOne": 140,
+            "weightTwo": null
+        },
+        {
+            "origin":"Arad",
+            "destination":"Timisoara",
+            "bidirectional": true,
+            "weightOne": 118,
+            "weightTwo": null
+        },
+        {
+            "origin":"Zerind",
+            "destination":"Oradea",
+            "bidirectional": true,
+            "weightOne": 71,
+            "weightTwo": null
+        },
+        {
+            "origin":"Oradea",
+            "destination":"Sibu",
+            "bidirectional": true,
+            "weightOne": 151,
+            "weightTwo": null
+        },
+        {
+            "origin":"Sibu",
+            "destination":"Fagaras",
+            "bidirectional": true,
+            "weightOne": 99,
+            "weightTwo": null
+        },
+        {
+            "origin":"Sibu",
+            "destination":"Rimnicu Vilcea",
+            "bidirectional": true,
+            "weightOne": 80,
+            "weightTwo": null
+        },
+        {
+            "origin":"Timisoara",
+            "destination":"Lugoj",
+            "bidirectional": true,
+            "weightOne": 111,
+            "weightTwo": null
+        },
+        {
+            "origin":"Lugoj",
+            "destination":"Mehadia",
+            "bidirectional": true,
+            "weightOne": 70,
+            "weightTwo": null
+        },
+        {
+            "origin":"Mehadia",
+            "destination":"Drobeta",
+            "bidirectional": true,
+            "weightOne": 75,
+            "weightTwo": null
+        },
+        {
+            "origin":"Drobeta",
+            "destination":"Craiova",
+            "bidirectional": true,
+            "weightOne": 120,
+            "weightTwo": null
+        },
+        {
+            "origin":"Craiova",
+            "destination":"Rimnicu Vilcea",
+            "bidirectional": true,
+            "weightOne": 146,
+            "weightTwo": null
+        },
+        {
+            "origin":"Craiova",
+            "destination":"Pitesti",
+            "bidirectional": true,
+            "weightOne": 97,
+            "weightTwo": null
+        },
+        {
+            "origin":"Rimnicu Vilcea",
+            "destination":"Pitesti",
+            "bidirectional": true,
+            "weightOne": 97,
+            "weightTwo": null
+        },
+        {
+            "origin":"Fagaras",
+            "destination":"Bucharest",
+            "bidirectional": true,
+            "weightOne": 211,
+            "weightTwo": null
+        },
+        {
+            "origin":"Pitesti",
+            "destination":"Bucharest",
+            "bidirectional": true,
+            "weightOne": 101,
+            "weightTwo": null
+        },
+        {
+            "origin":"Bucharest",
+            "destination":"Giurgiu",
+            "bidirectional": true,
+            "weightOne": 90,
+            "weightTwo": null
+        },
+        {
+            "origin":"Bucharest",
+            "destination":"Urziceni",
+            "bidirectional": true,
+            "weightOne": 85,
+            "weightTwo": null
+        },
+        {
+            "origin":"Urziceni",
+            "destination":"Hirsova",
+            "bidirectional": true,
+            "weightOne": 98,
+            "weightTwo": null
+        },
+        {
+            "origin":"Hirsova",
+            "destination":"Eforie",
+            "bidirectional": true,
+            "weightOne": 86,
+            "weightTwo": null
+        },
+        {
+            "origin":"Urziceni",
+            "destination":"Vaslui",
+            "bidirectional": true,
+            "weightOne": 142,
+            "weightTwo": null
+        },
+        {
+            "origin":"Vaslui",
+            "destination":"Iasi",
+            "bidirectional": true,
+            "weightOne": 92,
+            "weightTwo": null
+        },
+        {
+            "origin":"Iasi",
+            "destination":"Neamt",
+            "bidirectional": true,
+            "weightOne": 87,
+            "weightTwo": null
+        }
+    ]
+}
