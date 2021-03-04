@@ -1,4 +1,4 @@
-package xyz.byronhawksmith;
+package xyz.byronhawksmith.graphComponents;
 
 import java.util.ArrayList;
 import java.util.List;

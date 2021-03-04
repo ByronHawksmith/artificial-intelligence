@@ -1,4 +1,4 @@
-package xyz.byronhawksmith;
+package xyz.byronhawksmith.graphComponents;
 
 public class Edge {
 

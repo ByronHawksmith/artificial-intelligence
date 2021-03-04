@@ -2,8 +2,8 @@ package xyz.byronhawksmith.graph;
 
 import java.util.Map;
 
-import xyz.byronhawksmith.Edge;
-import xyz.byronhawksmith.Vertex;
+import xyz.byronhawksmith.graphComponents.Edge;
+import xyz.byronhawksmith.graphComponents.Vertex;
 
 public class Tree extends DirectedGraph {
 

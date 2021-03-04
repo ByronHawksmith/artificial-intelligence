@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import xyz.byronhawksmith.Edge;
-import xyz.byronhawksmith.Vertex;
+import xyz.byronhawksmith.graphComponents.Edge;
+import xyz.byronhawksmith.graphComponents.Vertex;
 
 public class DirectedGraph {
 
