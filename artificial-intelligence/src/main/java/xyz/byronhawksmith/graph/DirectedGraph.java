@@ -1,6 +1,7 @@
 package xyz.byronhawksmith.graph;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,11 @@ public class DirectedGraph {
 
     protected Map<String, Vertex> vertexMap;
     protected Map<String, Edge> edgeMap;
+
+    public enum Option {
+        ALPHABETIC,
+        ORDER_BY_COST
+    }
 
     public DirectedGraph() {
         this.vertexMap = new HashMap<>();
@@ -31,29 +37,38 @@ public class DirectedGraph {
         return vertexMap.get(name);
     }
 
-    public List<String> getVertexSuccessorNames(String name) {
+    public List<String> getVertexSuccessorNames(String name, List<Option> options) {
         List<String> outgoingEdgeNames = vertexMap.get(name).getOutgoingEdgeNames();
         List<String> vertexSuccessorNames = new ArrayList<>();
 
-        for (String edgeName : outgoingEdgeNames) {
-            vertexSuccessorNames.add(getEdge(edgeName).getDestinationVertexName());
+        if (options.contains(Option.ALPHABETIC)) {
+            java.util.Collections.sort(outgoingEdgeNames);
         }
 
-        return vertexSuccessorNames;
-    }
-
-    public List<String> getVertexSuccessorNames(String name, boolean isAlphabetic) {
-        if (!isAlphabetic) {
-            return getVertexSuccessorNames(name);
-        }
-
-        List<String> outgoingEdgeNames = vertexMap.get(name).getOutgoingEdgeNames();
-        List<String> vertexSuccessorNames = new ArrayList<>();
-
-        java.util.Collections.sort(outgoingEdgeNames);
+        List<Edge> outgoingEdges = new ArrayList<>();
 
         for (String edgeName : outgoingEdgeNames) {
-            vertexSuccessorNames.add(getEdge(edgeName).getDestinationVertexName());
+            outgoingEdges.add(getEdge(edgeName));
+        }
+
+        /* TODO: Update to Lambda Expression for brevity: https://howtodoinjava.com/java/sort/collections-sort/ */
+        if (options.contains(Option.ORDER_BY_COST)) {
+            Comparator<Edge> compareByCost = new Comparator<Edge>() {
+                @Override
+                public int compare(Edge e1, Edge e2) {
+
+                    Integer e1Weight = Integer.valueOf(e1.getWeight());
+                    Integer e2Weight = Integer.valueOf(e2.getWeight());
+
+                    return e1Weight.compareTo(e2Weight);
+                }
+            };
+
+            java.util.Collections.sort(outgoingEdges, compareByCost);
+        }
+
+        for (Edge edge : outgoingEdges) {
+            vertexSuccessorNames.add(edge.getDestinationVertexName());
         }
 
         return vertexSuccessorNames;

@@ -1,46 +1,24 @@
 package xyz.byronhawksmith.pathfinder;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PathData {
+    Path path;
+    Path searchHistory;
 
-    private List<String> path;
-    private List<String> searchHistory;
-
-    public PathData() {
-        setPath(new ArrayList<String>());
-        setSearchHistory(new ArrayList<String>());
-    }
-
-    public List<String> getSearchHistory() {
-        return searchHistory;
-    }
-
-    public void addVertexNameToSearchHistory(String vertexName) {
-        searchHistory.add(vertexName);
-    }
-
-    private void setSearchHistory(List<String> searchHistory) {
-        this.searchHistory = searchHistory;
-    }
-
-    public List<String> getPath() {
-        return path;
-    }
-
-    public void addVertexNameToPath(String vertexName) {
-        path.add(vertexName);
-    }
-
-    private void setPath(List<String> path) {
+    public PathData(Path path, Path searchHistory) {
         this.path = path;
+        this.searchHistory = searchHistory;
     }
 
     @Override
     public String toString() {
-        return "Backtracked Path: ".concat(path.toString()).concat("\nSearch History: ")
-                .concat(searchHistory.toString());
-    }
+        StringBuilder sb = new StringBuilder();
 
+        sb.append("Backtracked Path: ");
+        sb.append(path.toString());
+        sb.append("\n");
+        sb.append("Search History: ");
+        sb.append(searchHistory.toString());
+
+        return sb.toString();
+    }
 }
