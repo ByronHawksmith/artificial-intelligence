@@ -3,6 +3,7 @@ package xyz.byronhawksmith.json;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.Reader;
 
 import org.json.JSONArray;
@@ -38,6 +39,9 @@ public class GraphJsonParser {
             }
         }
 
+        /* Close reader resource when no longer needed */
+        closeReaderResource(reader);
+
         return tree;
     }
 
@@ -52,6 +56,16 @@ public class GraphJsonParser {
         }
 
         return null;
+    }
+
+    private static void closeReaderResource(Reader reader) {
+        if (reader != null) {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
