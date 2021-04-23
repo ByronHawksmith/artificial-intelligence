@@ -32,10 +32,27 @@ public class DirectedGraph {
     }
 
     public List<String> getVertexSuccessorNames(String name) {
-        List<String> outoingEdgeNames = vertexMap.get(name).getOutgoingEdgeNames();
+        List<String> outgoingEdgeNames = vertexMap.get(name).getOutgoingEdgeNames();
         List<String> vertexSuccessorNames = new ArrayList<>();
 
-        for (String edgeName : outoingEdgeNames) {
+        for (String edgeName : outgoingEdgeNames) {
+            vertexSuccessorNames.add(getEdge(edgeName).getDestinationVertexName());
+        }
+
+        return vertexSuccessorNames;
+    }
+
+    public List<String> getVertexSuccessorNames(String name, boolean isAlphabetic) {
+        if (!isAlphabetic) {
+            return getVertexSuccessorNames(name);
+        }
+
+        List<String> outgoingEdgeNames = vertexMap.get(name).getOutgoingEdgeNames();
+        List<String> vertexSuccessorNames = new ArrayList<>();
+
+        java.util.Collections.sort(outgoingEdgeNames);
+
+        for (String edgeName : outgoingEdgeNames) {
             vertexSuccessorNames.add(getEdge(edgeName).getDestinationVertexName());
         }
 

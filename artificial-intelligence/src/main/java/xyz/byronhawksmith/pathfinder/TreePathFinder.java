@@ -47,7 +47,7 @@ public class TreePathFinder extends PathFinder {
             // Update searchHistory before looking at successors
             pathData.addVertexNameToSearchHistory(vertexName);
 
-            for (String edgeName : tree.getVertexSuccessorNames(vertexName)) {
+            for (String edgeName : tree.getVertexSuccessorNames(vertexName, true)) {
                 if (!explored.contains(edgeName)) {
                     explored.add(edgeName);
                     q.add(edgeName);
