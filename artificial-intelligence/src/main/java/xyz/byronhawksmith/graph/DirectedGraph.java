@@ -15,6 +15,7 @@ public class DirectedGraph {
     protected Map<String, Edge> edgeMap;
 
     public enum Option {
+        DEFAULT,
         ALPHABETIC,
         ORDER_BY_COST
     }
@@ -51,7 +52,7 @@ public class DirectedGraph {
             outgoingEdges.add(getEdge(edgeName));
         }
 
-        /* TODO: Update to Lambda Expression for brevity: https://howtodoinjava.com/java/sort/collections-sort/ */
+        /* https://howtodoinjava.com/java/sort/collections-sort/ */
         if (options.contains(Option.ORDER_BY_COST)) {
             Comparator<Edge> compareByCost = new Comparator<Edge>() {
                 @Override

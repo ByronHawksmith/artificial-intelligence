@@ -2,8 +2,10 @@ package xyz.byronhawksmith.pathfinder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 import xyz.byronhawksmith.graph.DirectedGraph;
@@ -43,10 +45,18 @@ public class TreePathFinder extends PathFinder {
 
         Path searchHistory = new Path();
         Path path = null;
-        Queue<VertexPathWrapper> q = new LinkedList<>();
+        Queue<VertexPathWrapper> q = null;
 
-        VertexPathWrapper startVertexPathWrapper = new VertexPathWrapper(startVertexName, new Path());
-        startVertexPathWrapper.getPath().addVertexNameToPath(startVertexName);
+        if (searchType.equals(SearchType.BREADTH_FIRST_SEARCH)) {
+            q = new LinkedList<>();
+        } else if (searchType.equals(SearchType.UNIFORM_COST_SEARCH)) {
+            Comparator<VertexPathWrapper> compareByTotalWeight = (VertexPathWrapper vp1, VertexPathWrapper vp2) -> vp1
+                    .compareTo(vp2);
+            q = new PriorityQueue<>(compareByTotalWeight);
+        }
+
+        VertexPathWrapper startVertexPathWrapper = new VertexPathWrapper(startVertexName,
+                new Path(Arrays.asList(startVertexName)));
 
         this.explored.add(startVertexPathWrapper);
         q.add(startVertexPathWrapper);
@@ -60,23 +70,18 @@ public class TreePathFinder extends PathFinder {
             }
 
             /* Update searchHistory before looking at successors */
-            searchHistory.addVertexNameToPath(currentVertexPathWrapper.getVertexName());
+            searchHistory.addVertexNameToPathList(currentVertexPathWrapper.getVertexName());
 
             /* Get successors */
             List<String> successors = null;
 
-            if (searchType.equals(SearchType.BREADTH_FIRST_SEARCH)) {
-                successors = tree.getVertexSuccessorNames(currentVertexPathWrapper.getVertexName(),
+            successors = tree.getVertexSuccessorNames(currentVertexPathWrapper.getVertexName(),
                         Arrays.asList(DirectedGraph.Option.ALPHABETIC));
-            } else if (searchType.equals(SearchType.UNIFORM_COST_SEARCH)) {
-                successors = tree.getVertexSuccessorNames(currentVertexPathWrapper.getVertexName(),
-                        Arrays.asList(DirectedGraph.Option.ORDER_BY_COST));
-            }
 
             for (String successorVertexName : successors) {
                 if (!containsVertexName(explored, successorVertexName)) {
                     Path newPath = new Path(currentVertexPathWrapper.getPath());
-                    newPath.addVertexNameToPath(successorVertexName);
+                    newPath.addVertexNameToPathList(successorVertexName);
                     VertexPathWrapper newVertexPathWrapper = new VertexPathWrapper(successorVertexName, newPath);
                     explored.add(newVertexPathWrapper);
                     q.add(newVertexPathWrapper);
@@ -87,18 +92,6 @@ public class TreePathFinder extends PathFinder {
         resetInternalVariables();
         return new PathData(path, searchHistory);
     }
-
-    /* https://en.wikipedia.org/wiki/Breadth-first_search */
-    // public PathData breadthFirstSearch(String goalVertexName, String
-    // startVertexName) {
-
-    // }
-
-    /* AKA: Best First Search */
-    // public PathData uniformCostSearch(String goalVertexName, String
-    // startVertexName) {
-
-    // }
 
     private boolean containsVertexName(final List<VertexPathWrapper> list, final String vertexName) {
         return list.stream().anyMatch(o -> o.getVertexName().equals(vertexName));

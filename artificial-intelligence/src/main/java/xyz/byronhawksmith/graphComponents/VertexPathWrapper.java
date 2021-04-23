@@ -2,7 +2,7 @@ package xyz.byronhawksmith.graphComponents;
 
 import xyz.byronhawksmith.pathfinder.Path;
 
-public class VertexPathWrapper {
+public class VertexPathWrapper implements Comparable<VertexPathWrapper> {
     private String vertexName;
     private Path path;
 
@@ -17,5 +17,10 @@ public class VertexPathWrapper {
 
     public Path getPath() {
         return this.path;
+    }
+
+    @Override
+    public int compareTo(VertexPathWrapper o) {
+        return getPath().compareTo(o.getPath());
     }
 }
