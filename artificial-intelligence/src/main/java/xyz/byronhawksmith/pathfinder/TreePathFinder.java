@@ -16,16 +16,12 @@ public class TreePathFinder extends PathFinder {
 
     private Tree tree;
 
-    public enum SearchType {
-        BREADTH_FIRST_SEARCH, UNIFORM_COST_SEARCH
-    }
-
     public TreePathFinder(Tree tree) {
         super();
         this.setTree(tree);
     }
 
-    public TreePathFinder(Tree tree, List<VertexPathWrapper> explored, List<VertexPathWrapper> frontier) {
+    public TreePathFinder(Tree tree, List<VertexPathWrapper> explored, Queue<VertexPathWrapper> frontier) {
         super(explored, frontier);
         this.setTree(tree);
     }
@@ -38,31 +34,27 @@ public class TreePathFinder extends PathFinder {
         this.tree = tree;
     }
 
-    public PathData treeSearch(String goalVertexName, String startVertexName, SearchType searchType) {
-        if (searchType == null) {
-            throw new NullPointerException("The provided search type was null.");
-        }
-
+    public PathData breadthFirstSearch(String goalVertexName, String startVertexName) {
+        /* Initialise variables */
         Path searchHistory = new Path();
         Path path = null;
-        Queue<VertexPathWrapper> q = null;
+        explored = new ArrayList<>();
+        frontier = new LinkedList<>();
+        VertexPathWrapper startVertexPathWrapper;
+        VertexPathWrapper currentVertexPathWrapper;
+        VertexPathWrapper newVertexPathWrapper;
+        List<String> successors;
+        Path newPath;
 
-        if (searchType.equals(SearchType.BREADTH_FIRST_SEARCH)) {
-            q = new LinkedList<>();
-        } else if (searchType.equals(SearchType.UNIFORM_COST_SEARCH)) {
-            Comparator<VertexPathWrapper> compareByTotalWeight = (VertexPathWrapper vp1, VertexPathWrapper vp2) -> vp1
-                    .compareTo(vp2);
-            q = new PriorityQueue<>(compareByTotalWeight);
-        }
+        /* Create start vertex pathfinding object */
+        startVertexPathWrapper = new VertexPathWrapper(startVertexName, new Path(Arrays.asList(startVertexName)));
 
-        VertexPathWrapper startVertexPathWrapper = new VertexPathWrapper(startVertexName,
-                new Path(Arrays.asList(startVertexName)));
+        /* Add start vertex to the explored set and to the frontier */
+        explored.add(startVertexPathWrapper);
+        frontier.add(startVertexPathWrapper);
 
-        this.explored.add(startVertexPathWrapper);
-        q.add(startVertexPathWrapper);
-
-        while (!q.isEmpty()) {
-            VertexPathWrapper currentVertexPathWrapper = q.poll();
+        while (!frontier.isEmpty()) {
+            currentVertexPathWrapper = frontier.poll();
 
             if (currentVertexPathWrapper.getVertexName().equals(goalVertexName)) {
                 path = currentVertexPathWrapper.getPath();
@@ -73,23 +65,86 @@ public class TreePathFinder extends PathFinder {
             searchHistory.addVertexNameToPathList(currentVertexPathWrapper.getVertexName());
 
             /* Get successors */
-            List<String> successors = null;
-
             successors = tree.getVertexSuccessorNames(currentVertexPathWrapper.getVertexName(),
-                        Arrays.asList(DirectedGraph.Option.ALPHABETIC));
+                    Arrays.asList(DirectedGraph.Option.ALPHABETIC));
 
             for (String successorVertexName : successors) {
                 if (!containsVertexName(explored, successorVertexName)) {
-                    Path newPath = new Path(currentVertexPathWrapper.getPath());
+                    newPath = new Path(currentVertexPathWrapper.getPath());
                     newPath.addVertexNameToPathList(successorVertexName);
-                    VertexPathWrapper newVertexPathWrapper = new VertexPathWrapper(successorVertexName, newPath);
+                    newVertexPathWrapper = new VertexPathWrapper(successorVertexName, newPath);
+
                     explored.add(newVertexPathWrapper);
-                    q.add(newVertexPathWrapper);
+                    frontier.add(newVertexPathWrapper);
                 }
             }
         }
 
-        resetInternalVariables();
+        return new PathData(path, searchHistory);
+    }
+
+    public PathData uniformCostSearch(String goalVertexName, String startVertexName) {
+        /* Initialise variables */
+        Path searchHistory = new Path();
+        Path path = null;
+        explored = new ArrayList<>();
+        frontier = new PriorityQueue<>((VertexPathWrapper vp1, VertexPathWrapper vp2) -> vp1.compareTo(vp2));
+        VertexPathWrapper startVertexPathWrapper;
+        VertexPathWrapper currentVertexPathWrapper;
+        VertexPathWrapper newVertexPathWrapper;
+        VertexPathWrapper oldVertexPathWrapper;
+        List<String> successors;
+        Path newPath;
+
+        /* Create start vertex pathfinding object */
+        startVertexPathWrapper = new VertexPathWrapper(startVertexName, new Path(Arrays.asList(startVertexName), 0));
+
+        /* Add start vertex to the explored set and to the frontier */
+        explored.add(startVertexPathWrapper);
+        frontier.add(startVertexPathWrapper);
+
+        while (!frontier.isEmpty()) {
+            currentVertexPathWrapper = frontier.poll();
+
+            if (currentVertexPathWrapper.getVertexName().equals(goalVertexName)) {
+                path = currentVertexPathWrapper.getPath();
+                break;
+            }
+
+            /* Update searchHistory before looking at successors */
+            searchHistory.addVertexNameToPathList(currentVertexPathWrapper.getVertexName());
+
+            /* Get successors */
+            successors = tree.getVertexSuccessorNames(currentVertexPathWrapper.getVertexName(),
+                    Arrays.asList(DirectedGraph.Option.ALPHABETIC));
+
+            for (String successorVertexName : successors) {
+                newPath = new Path(currentVertexPathWrapper.getPath());
+                newPath.addVertexNameToPathList(successorVertexName);
+                newPath.addEdgeWeightToPathList(
+                        tree.getEdgeWeight(currentVertexPathWrapper.getVertexName(), successorVertexName));
+                newVertexPathWrapper = new VertexPathWrapper(successorVertexName, newPath);
+
+                /*
+                 * If the path weight of the successor vertex in the explored set is greater
+                 * than or equal to the newly calculated alternative path weight; replace it
+                 * with the shorter path.
+                 */
+                oldVertexPathWrapper = getVertexFromList(explored, successorVertexName);
+
+                if (oldVertexPathWrapper != null) {
+                    if (oldVertexPathWrapper.getPath().getWeight() >= newVertexPathWrapper
+                            .getPath().getWeight()) {
+                        explored.add(newVertexPathWrapper);
+                        frontier.add(newVertexPathWrapper);
+                    }
+                } else {
+                    explored.add(newVertexPathWrapper);
+                    frontier.add(newVertexPathWrapper);
+                }
+            }
+        }
+
         return new PathData(path, searchHistory);
     }
 
@@ -97,9 +152,7 @@ public class TreePathFinder extends PathFinder {
         return list.stream().anyMatch(o -> o.getVertexName().equals(vertexName));
     }
 
-    private void resetInternalVariables() {
-        setExplored(new ArrayList<VertexPathWrapper>());
-        setFrontier(new ArrayList<VertexPathWrapper>());
+    private VertexPathWrapper getVertexFromList(final List<VertexPathWrapper> list, final String vertexName) {
+        return list.stream().filter(o -> o.getVertexName().equals(vertexName)).findFirst().orElse(null);
     }
-
 }

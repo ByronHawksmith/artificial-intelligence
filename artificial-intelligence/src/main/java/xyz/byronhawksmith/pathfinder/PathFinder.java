@@ -1,7 +1,7 @@
 package xyz.byronhawksmith.pathfinder;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 import xyz.byronhawksmith.graphComponents.VertexPathWrapper;
 
@@ -14,14 +14,12 @@ public class PathFinder {
     /* A path contains a cycle iff the same node is visited more than once. */
 
     protected List<VertexPathWrapper> explored;
-    protected List<VertexPathWrapper> frontier;
+    protected Queue<VertexPathWrapper> frontier;
 
     public PathFinder() {
-        setExplored(new ArrayList<VertexPathWrapper>());
-        setFrontier(new ArrayList<VertexPathWrapper>());
     }
 
-    public PathFinder(List<VertexPathWrapper> explored, List<VertexPathWrapper> frontier) {
+    public PathFinder(List<VertexPathWrapper> explored, Queue<VertexPathWrapper> frontier) {
         setExplored(explored);
         setFrontier(frontier);
     }
@@ -34,11 +32,11 @@ public class PathFinder {
         this.explored = explored;
     }
 
-    public List<VertexPathWrapper> getFrontier() {
+    public Queue<VertexPathWrapper> getFrontier() {
         return frontier;
     }
 
-    public void setFrontier(List<VertexPathWrapper> frontier) {
+    public void setFrontier(Queue<VertexPathWrapper> frontier) {
         this.frontier = frontier;
     }
 

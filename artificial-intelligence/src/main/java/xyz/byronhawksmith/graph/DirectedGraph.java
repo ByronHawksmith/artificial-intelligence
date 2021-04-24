@@ -102,6 +102,15 @@ public class DirectedGraph {
         return e;
     }
 
+    public int getEdgeWeight(String originName, String destinationName) {
+        String edgeName = originName.concat(destinationName);
+        if (containsEdge(edgeName)) {
+            return edgeMap.get(edgeName).getWeight();
+        } else {
+            return -1;
+        }
+    }
+
     public boolean containsEdge(String name) {
         return edgeMap.containsKey(name);
     }

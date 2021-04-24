@@ -12,6 +12,11 @@ public class Path implements Comparable<Path> {
         weight = -1;
     }
 
+    public Path(int weight) {
+        setPathList(new ArrayList<String>());
+        this.weight = weight;
+    }
+
     public Path(List<String> pathList) {
         this.pathList = pathList;
         weight = -1;
@@ -42,6 +47,10 @@ public class Path implements Comparable<Path> {
     public void addVertexNameToPathList(String vertexName) {
         pathList.add(vertexName);
     }
+    
+    public void addEdgeWeightToPathList(int weight) {
+        this.weight += weight;
+    }
 
     public int getWeight() {
         return this.weight;
@@ -55,9 +64,14 @@ public class Path implements Comparable<Path> {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        for (String vertex : pathList) {
-            sb.append(vertex);
-            sb.append(" ");
+        for (int i = 0; i < pathList.size(); i++) {
+            String vertex = pathList.get(i);
+            if (i == pathList.size() - 1) {
+                sb.append(vertex);
+            } else {
+                sb.append(vertex);
+                sb.append(", ");
+            }
         }
 
         if (weight != -1) {
