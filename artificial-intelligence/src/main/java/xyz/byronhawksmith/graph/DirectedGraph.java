@@ -1,7 +1,6 @@
 package xyz.byronhawksmith.graph;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,9 +14,7 @@ public class DirectedGraph {
     protected Map<String, Edge> edgeMap;
 
     public enum Option {
-        DEFAULT,
-        ALPHABETIC,
-        ORDER_BY_COST
+        DEFAULT, ALPHABETIC, ORDER_BY_COST
     }
 
     public DirectedGraph() {
@@ -52,20 +49,9 @@ public class DirectedGraph {
             outgoingEdges.add(getEdge(edgeName));
         }
 
-        /* https://howtodoinjava.com/java/sort/collections-sort/ */
         if (options.contains(Option.ORDER_BY_COST)) {
-            Comparator<Edge> compareByCost = new Comparator<Edge>() {
-                @Override
-                public int compare(Edge e1, Edge e2) {
-
-                    Integer e1Weight = Integer.valueOf(e1.getWeight());
-                    Integer e2Weight = Integer.valueOf(e2.getWeight());
-
-                    return e1Weight.compareTo(e2Weight);
-                }
-            };
-
-            java.util.Collections.sort(outgoingEdges, compareByCost);
+            java.util.Collections.sort(outgoingEdges,
+                    (Edge e1, Edge e2) -> Integer.valueOf(e1.getWeight()).compareTo(Integer.valueOf(e2.getWeight())));
         }
 
         for (Edge edge : outgoingEdges) {
