@@ -1,6 +1,7 @@
 package xyz.byronhawksmith.graph;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,7 @@ public class DirectedGraph {
     protected Map<String, Edge> edgeMap;
 
     public enum Option {
-        DEFAULT, ALPHABETIC, ORDER_BY_COST
+        DEFAULT, ALPHABETIC, REVERSE_ALPHABETIC, ORDER_BY_COST
     }
 
     public DirectedGraph() {
@@ -40,7 +41,11 @@ public class DirectedGraph {
         List<String> vertexSuccessorNames = new ArrayList<>();
 
         if (options.contains(Option.ALPHABETIC)) {
-            java.util.Collections.sort(outgoingEdgeNames);
+            Collections.sort(outgoingEdgeNames);
+        }
+
+        if (options.contains(Option.REVERSE_ALPHABETIC)) {
+            Collections.sort(outgoingEdgeNames, Collections.reverseOrder(String.CASE_INSENSITIVE_ORDER));
         }
 
         List<Edge> outgoingEdges = new ArrayList<>();
@@ -50,7 +55,7 @@ public class DirectedGraph {
         }
 
         if (options.contains(Option.ORDER_BY_COST)) {
-            java.util.Collections.sort(outgoingEdges,
+            Collections.sort(outgoingEdges,
                     (Edge e1, Edge e2) -> Integer.valueOf(e1.getWeight()).compareTo(Integer.valueOf(e2.getWeight())));
         }
 

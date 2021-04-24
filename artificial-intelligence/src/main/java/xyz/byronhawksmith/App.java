@@ -15,7 +15,8 @@ public class App {
                 TreePathFinder pathFinder = new TreePathFinder(tree);
 
                 // PathData result = pathFinder.breadthFirstSearch("Bucharest", "Arad");
-                PathData result = pathFinder.uniformCostSearch("Bucharest", "Arad");
+                // PathData result = pathFinder.uniformCostSearch("Bucharest", "Arad");
+                PathData result = pathFinder.depthFirstSearch("Bucharest", "Arad");
 
                 System.out.println(result.toString());
         }
