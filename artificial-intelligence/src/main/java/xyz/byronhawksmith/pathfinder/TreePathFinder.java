@@ -137,6 +137,7 @@ public class TreePathFinder extends PathFinder {
                     if (oldVertexPathWrapper.getPath().getWeight() >= newVertexPathWrapper.getPath().getWeight()) {
                         explored.add(newVertexPathWrapper);
                         frontier.add(newVertexPathWrapper);
+                        frontier.remove(oldVertexPathWrapper);
                     }
                 } else {
                     explored.add(newVertexPathWrapper);
