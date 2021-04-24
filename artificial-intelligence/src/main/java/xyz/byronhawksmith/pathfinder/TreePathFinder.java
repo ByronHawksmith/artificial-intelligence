@@ -126,15 +126,16 @@ public class TreePathFinder extends PathFinder {
                 newVertexPathWrapper = new VertexPathWrapper(successorVertexName, newPath);
 
                 /*
-                 * If the path weight of the successor vertex in the explored set is greater
-                 * than or equal to the newly calculated alternative path weight; replace it
-                 * with the shorter path.
+                 * If the path weight of the old path to the successor vertex (which is in the
+                 * explored set) is greater than or equal to the newly calculated alternative
+                 * path weight to the successor vertex; replace the old path with the new path
+                 * thus guaranteeing we always have the shortest path to a given vertex in our
+                 * frontier.
                  */
                 oldVertexPathWrapper = getVertexFromList(explored, successorVertexName);
 
                 if (oldVertexPathWrapper != null) {
-                    if (oldVertexPathWrapper.getPath().getWeight() >= newVertexPathWrapper
-                            .getPath().getWeight()) {
+                    if (oldVertexPathWrapper.getPath().getWeight() >= newVertexPathWrapper.getPath().getWeight()) {
                         explored.add(newVertexPathWrapper);
                         frontier.add(newVertexPathWrapper);
                     }
