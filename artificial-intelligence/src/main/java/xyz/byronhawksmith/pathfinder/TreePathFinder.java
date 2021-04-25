@@ -1,13 +1,17 @@
 package xyz.byronhawksmith.pathfinder;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Deque;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Set;
 
 import xyz.byronhawksmith.graph.DirectedGraph;
 import xyz.byronhawksmith.graph.Tree;
@@ -34,7 +38,7 @@ public class TreePathFinder {
         /* Initialise variables */
         Path searchHistory = new Path();
         Path path = null;
-        List<VertexPathWrapper> explored = new ArrayList<>();
+        Set<VertexPathWrapper> explored = new HashSet<>();
         Queue<VertexPathWrapper> frontier = new LinkedList<>();
         VertexPathWrapper startVertexPathWrapper;
         VertexPathWrapper currentVertexPathWrapper;
@@ -85,7 +89,7 @@ public class TreePathFinder {
         /* Initialise variables */
         Path searchHistory = new Path();
         Path path = null;
-        List<VertexPathWrapper> explored = new ArrayList<>();
+        Map<String, VertexPathWrapper> explored = new HashMap<>(); /* TODO: Give hashmap the size of num vertices in the graph */
         Queue<VertexPathWrapper> frontier = new PriorityQueue<>(
                 (VertexPathWrapper vp1, VertexPathWrapper vp2) -> vp1.compareTo(vp2));
         VertexPathWrapper startVertexPathWrapper;
@@ -99,7 +103,7 @@ public class TreePathFinder {
         startVertexPathWrapper = new VertexPathWrapper(startVertexName, new Path(Arrays.asList(startVertexName), 0));
 
         /* Add start vertex to the explored set and to the frontier */
-        explored.add(startVertexPathWrapper);
+        explored.put(startVertexName, startVertexPathWrapper);
         frontier.add(startVertexPathWrapper);
 
         while (!frontier.isEmpty()) {
@@ -133,16 +137,16 @@ public class TreePathFinder {
                  * thus guaranteeing we always have the shortest path to a given vertex in our
                  * frontier.
                  */
-                oldVertexPathWrapper = getVertexFromList(explored, successorVertexName);
+                oldVertexPathWrapper = explored.get(successorVertexName);
 
                 if (oldVertexPathWrapper != null) {
                     if (oldVertexPathWrapper.getPath().getWeight() >= newVertexPathWrapper.getPath().getWeight()) {
-                        explored.add(newVertexPathWrapper);
+                        explored.put(successorVertexName, newVertexPathWrapper);
                         frontier.add(newVertexPathWrapper);
                         frontier.remove(oldVertexPathWrapper);
                     }
                 } else {
-                    explored.add(newVertexPathWrapper);
+                    explored.put(successorVertexName, newVertexPathWrapper);
                     frontier.add(newVertexPathWrapper);
                 }
             }
@@ -155,7 +159,7 @@ public class TreePathFinder {
         /* Initialise variables */
         Path searchHistory = new Path();
         Path path = null;
-        Deque<VertexPathWrapper> frontier = new ArrayDeque<>();
+        Deque<VertexPathWrapper> frontier = new ArrayDeque<>(); /* Being used as a stack */
         VertexPathWrapper startVertexPathWrapper;
         VertexPathWrapper currentVertexPathWrapper;
         VertexPathWrapper newVertexPathWrapper;
@@ -199,11 +203,11 @@ public class TreePathFinder {
         return new PathData(path, searchHistory);
     }
 
-    private boolean containsVertexName(final List<VertexPathWrapper> list, final String vertexName) {
+    private boolean containsVertexName(final Collection<VertexPathWrapper> list, final String vertexName) {
         return list.stream().anyMatch(o -> o.getVertexName().equals(vertexName));
     }
 
-    private VertexPathWrapper getVertexFromList(final List<VertexPathWrapper> list, final String vertexName) {
+    private VertexPathWrapper getVertexPathWrapper(final Collection<VertexPathWrapper> list, final String vertexName) {
         return list.stream().filter(o -> o.getVertexName().equals(vertexName)).findFirst().orElse(null);
     }
 }
