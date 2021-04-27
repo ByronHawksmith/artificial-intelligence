@@ -1,5 +1,7 @@
 package xyz.byronhawksmith.graphComponents;
 
+import java.util.Objects;
+
 import xyz.byronhawksmith.pathfinder.Path;
 
 public class VertexPathWrapper implements Comparable<VertexPathWrapper> {
@@ -17,6 +19,24 @@ public class VertexPathWrapper implements Comparable<VertexPathWrapper> {
 
     public Path getPath() {
         return this.path;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null)
+            return false;
+        if (o == this)
+            return true;
+        if (!(o instanceof VertexPathWrapper)) {
+            return false;
+        }
+        VertexPathWrapper vertexPathWrapper = (VertexPathWrapper) o;
+        return Objects.equals(vertexName, vertexPathWrapper.vertexName) && Objects.equals(path, vertexPathWrapper.path);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(vertexName, path);
     }
 
     @Override

@@ -2,6 +2,7 @@ package xyz.byronhawksmith.pathfinder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Path implements Comparable<Path> {
     private List<String> pathList;
@@ -80,6 +81,24 @@ public class Path implements Comparable<Path> {
         }
 
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null)
+            return false;
+        if (o == this)
+            return true;
+        if (!(o instanceof Path)) {
+            return false;
+        }
+        Path path = (Path) o;
+        return Objects.equals(pathList, path.pathList) && weight == path.weight;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pathList, weight);
     }
 
     @Override
