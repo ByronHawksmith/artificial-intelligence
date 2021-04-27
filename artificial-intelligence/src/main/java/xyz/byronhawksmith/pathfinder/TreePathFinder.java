@@ -13,6 +13,8 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import xyz.byronhawksmith.graph.DirectedGraph;
 import xyz.byronhawksmith.graph.Tree;
 import xyz.byronhawksmith.graphComponents.VertexPathWrapper;
@@ -204,6 +206,68 @@ public class TreePathFinder {
         }
 
         return new PathData(path, searchHistory);
+    }
+
+    private Pair<VertexPathWrapper, Boolean> depthLimitedSearch(String goalVertexName, VertexPathWrapper node,
+            int depth) {
+        List<String> successors;
+        Path newPath;
+        VertexPathWrapper newVertexPathWrapper;
+
+        if (depth == 0) {
+            if (node.getVertexName().equals(goalVertexName)) {
+                return Pair.of(node, true);
+            } else {
+                return Pair.of(null, true);
+            }
+        } else if (depth > 0) {
+            boolean anyRemaining = false;
+
+            /* Get successors */
+            successors = tree.getVertexSuccessorNames(node.getVertexName(),
+                    Arrays.asList(DirectedGraph.Option.REVERSE_ALPHABETIC));
+
+            for (String successorVertexName : successors) {
+                if (!node.getPath().getPathList().contains(successorVertexName)) {
+                    newPath = new Path(node.getPath());
+                    newPath.addVertexNameToPathList(successorVertexName);
+                    newVertexPathWrapper = new VertexPathWrapper(successorVertexName, newPath);
+
+                    Pair<VertexPathWrapper, Boolean> foundRemaining = depthLimitedSearch(goalVertexName, newVertexPathWrapper, depth - 1);
+
+                    if (foundRemaining.getLeft() != null) {
+                        return Pair.of(foundRemaining.getLeft(), true);
+                    }
+
+                    if (foundRemaining.getRight() != null && foundRemaining.getRight()) {
+                        anyRemaining = true;
+                    }
+                }
+            }
+
+            return Pair.of(null, anyRemaining);
+        }
+
+        // SHOULD BE UNREACHABLE
+        return null;
+    }
+
+    // https://en.wikipedia.org/wiki/Iterative_deepening_depth-first_search
+    public PathData iterativeDeepeningDepthFirstSearch(String goalVertexName, String startVertexName) {
+        VertexPathWrapper startVertexPathWrapper = new VertexPathWrapper(startVertexName, new Path(Arrays.asList(startVertexName)));
+
+        for (int depth = 0; depth < Integer.MAX_VALUE; depth++) {
+            Pair<VertexPathWrapper, Boolean> foundRemaining = depthLimitedSearch(goalVertexName, startVertexPathWrapper, depth);
+
+            if (foundRemaining.getLeft() != null) {
+                return new PathData(foundRemaining.getLeft().getPath(), null);
+            } else if (foundRemaining.getRight() != null && !foundRemaining.getRight()) {
+                return null;
+            }
+        }
+
+        // SHOULD BE UNREACHABLE
+        return null;
     }
 
     private boolean containsVertexName(final Collection<VertexPathWrapper> list, final String vertexName) {

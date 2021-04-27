@@ -16,7 +16,8 @@ public class App {
 
                 // PathData result = pathFinder.breadthFirstSearch("Bucharest", "Arad");
                 // PathData result = pathFinder.uniformCostSearch("Bucharest", "Arad");
-                PathData result = pathFinder.depthFirstSearch("Bucharest", "Arad");
+                // PathData result = pathFinder.depthFirstSearch("Bucharest", "Arad");
+                PathData result = pathFinder.iterativeDeepeningDepthFirstSearch("Bucharest", "Arad");
 
                 System.out.println(result.toString());
         }

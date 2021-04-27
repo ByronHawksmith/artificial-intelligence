@@ -15,9 +15,12 @@ public class PathData {
 
         sb.append("Backtracked Path: ");
         sb.append(path.toString());
-        sb.append("\n");
-        sb.append("Search History: ");
-        sb.append(searchHistory.toString());
+
+        if (searchHistory != null) {
+            sb.append("\n");
+            sb.append("Search History: ");
+            sb.append(searchHistory.toString());
+        }
 
         return sb.toString();
     }
