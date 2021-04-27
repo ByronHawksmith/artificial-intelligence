@@ -208,8 +208,8 @@ public class TreePathFinder {
         return new PathData(path, searchHistory);
     }
 
-    private Pair<VertexPathWrapper, Boolean> depthLimitedSearch(String goalVertexName, VertexPathWrapper node,
-            int depth) {
+    private Pair<VertexPathWrapper, Boolean> depthLimitedSearch(VertexPathWrapper node, int depth,
+            String goalVertexName, Path searchHistory) {
         List<String> successors;
         Path newPath;
         VertexPathWrapper newVertexPathWrapper;
@@ -223,6 +223,11 @@ public class TreePathFinder {
         } else if (depth > 0) {
             boolean anyRemaining = false;
 
+            /*
+             * NOTE: THIS IS OPTIONAL: Update searchHistory before looking at successors
+             */
+            searchHistory.addVertexNameToPathList(node.getVertexName());
+
             /* Get successors */
             successors = tree.getVertexSuccessorNames(node.getVertexName(),
                     Arrays.asList(DirectedGraph.Option.REVERSE_ALPHABETIC));
@@ -233,7 +238,8 @@ public class TreePathFinder {
                     newPath.addVertexNameToPathList(successorVertexName);
                     newVertexPathWrapper = new VertexPathWrapper(successorVertexName, newPath);
 
-                    Pair<VertexPathWrapper, Boolean> foundRemaining = depthLimitedSearch(goalVertexName, newVertexPathWrapper, depth - 1);
+                    Pair<VertexPathWrapper, Boolean> foundRemaining = depthLimitedSearch(newVertexPathWrapper,
+                            depth - 1, goalVertexName, searchHistory);
 
                     if (foundRemaining.getLeft() != null) {
                         return Pair.of(foundRemaining.getLeft(), true);
@@ -254,11 +260,14 @@ public class TreePathFinder {
 
     // https://en.wikipedia.org/wiki/Iterative_deepening_depth-first_search
     public PathData iterativeDeepeningDepthFirstSearch(String goalVertexName, String startVertexName) {
-        VertexPathWrapper startVertexPathWrapper = new VertexPathWrapper(startVertexName, new Path(Arrays.asList(startVertexName)));
+        VertexPathWrapper startVertexPathWrapper = new VertexPathWrapper(startVertexName,
+                new Path(Arrays.asList(startVertexName)));
         Path path = null;
+        Path searchHistory = new Path();
 
         for (int depth = 0; depth < Integer.MAX_VALUE; depth++) {
-            Pair<VertexPathWrapper, Boolean> foundRemaining = depthLimitedSearch(goalVertexName, startVertexPathWrapper, depth);
+            Pair<VertexPathWrapper, Boolean> foundRemaining = depthLimitedSearch(startVertexPathWrapper, depth,
+                    goalVertexName, searchHistory);
 
             if (foundRemaining.getLeft() != null) {
                 path = foundRemaining.getLeft().getPath();
@@ -268,7 +277,7 @@ public class TreePathFinder {
             }
         }
 
-        return new PathData(path, null);
+        return new PathData(path, searchHistory);
     }
 
     private boolean containsVertexName(final Collection<VertexPathWrapper> list, final String vertexName) {
