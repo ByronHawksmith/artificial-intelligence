@@ -13,12 +13,21 @@ public class App {
                                 "/artificial-intelligence/src/main/java/xyz/byronhawksmith/resources/graph.json");
 
                 TreePathFinder pathFinder = new TreePathFinder(tree);
+                PathData result;
 
-                // PathData result = pathFinder.breadthFirstSearch("Bucharest", "Arad");
-                // PathData result = pathFinder.uniformCostSearch("Bucharest", "Arad");
-                // PathData result = pathFinder.depthFirstSearch("Bucharest", "Arad");
-                PathData result = pathFinder.iterativeDeepeningDepthFirstSearch("Bucharest", "Arad");
+                String destination = "Bucharest";
+                String origin = "Arad";
 
+                result = pathFinder.breadthFirstSearch(destination, origin);
+                System.out.println(result.toString());
+
+                result = pathFinder.uniformCostSearch(destination, origin);
+                System.out.println(result.toString());
+
+                result = pathFinder.depthFirstSearch(destination, origin);
+                System.out.println(result.toString());
+
+                result = pathFinder.iterativeDeepeningDepthFirstSearch(destination, origin);
                 System.out.println(result.toString());
         }
 }

@@ -22,6 +22,8 @@ public class PathData {
             sb.append(searchHistory.toString());
         }
 
+        sb.append("\n");
+
         return sb.toString();
     }
 }
