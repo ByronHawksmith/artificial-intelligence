@@ -2,11 +2,13 @@ package xyz.byronhawksmith.graphComponents;
 
 import java.util.Objects;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 import xyz.byronhawksmith.pathfinder.Path;
 
 public class VertexPathWrapper implements Comparable<VertexPathWrapper> {
-    private String vertexName;
-    private Path path;
+    protected String vertexName;
+    protected Path path;
 
     public VertexPathWrapper(String vertex, Path path) {
         this.vertexName = vertex;
@@ -30,8 +32,10 @@ public class VertexPathWrapper implements Comparable<VertexPathWrapper> {
         if (!(o instanceof VertexPathWrapper)) {
             return false;
         }
-        VertexPathWrapper vertexPathWrapper = (VertexPathWrapper) o;
-        return Objects.equals(vertexName, vertexPathWrapper.vertexName) && Objects.equals(path, vertexPathWrapper.path);
+        VertexPathWrapper rhs = (VertexPathWrapper) o;
+
+        return new EqualsBuilder().appendSuper(super.equals(o)).append(vertexName, rhs.vertexName)
+                .append(path, rhs.path).isEquals();
     }
 
     @Override

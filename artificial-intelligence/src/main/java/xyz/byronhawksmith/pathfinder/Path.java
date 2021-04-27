@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 public class Path implements Comparable<Path> {
     private List<String> pathList;
     private int weight;
@@ -48,7 +50,7 @@ public class Path implements Comparable<Path> {
     public void addVertexNameToPathList(String vertexName) {
         pathList.add(vertexName);
     }
-    
+
     public void addEdgeWeightToPathList(int weight) {
         this.weight += weight;
     }
@@ -92,8 +94,10 @@ public class Path implements Comparable<Path> {
         if (!(o instanceof Path)) {
             return false;
         }
-        Path path = (Path) o;
-        return Objects.equals(pathList, path.pathList) && weight == path.weight;
+        Path rhs = (Path) o;
+
+        return new EqualsBuilder().appendSuper(super.equals(o)).append(pathList, rhs.pathList)
+                .append(weight, rhs.weight).isEquals();
     }
 
     @Override

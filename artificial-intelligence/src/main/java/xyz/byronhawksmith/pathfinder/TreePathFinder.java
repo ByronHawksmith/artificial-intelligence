@@ -89,7 +89,10 @@ public class TreePathFinder {
         /* Initialise variables */
         Path searchHistory = new Path();
         Path path = null;
-        Map<String, VertexPathWrapper> explored = new HashMap<>(); /* TODO: Give hashmap the size of num vertices in the graph */
+        /*
+         * TODO: Give hashmap the size of num vertices in the graph
+         */
+        Map<String, VertexPathWrapper> explored = new HashMap<>();
         Queue<VertexPathWrapper> frontier = new PriorityQueue<>(
                 (VertexPathWrapper vp1, VertexPathWrapper vp2) -> vp1.compareTo(vp2));
         VertexPathWrapper startVertexPathWrapper;
