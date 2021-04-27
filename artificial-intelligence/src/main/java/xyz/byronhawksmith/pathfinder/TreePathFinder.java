@@ -216,8 +216,10 @@ public class TreePathFinder {
 
         if (depth == 0) {
             if (node.getVertexName().equals(goalVertexName)) {
+                /* We did find the goal vertex, and we also have unexplored vertices remaining in the graph */
                 return Pair.of(node, true);
             } else {
+                /* We didn't find the goal vertex, and we also have unexplored vertices remaining in the graph */
                 return Pair.of(null, true);
             }
         } else if (depth > 0) {
@@ -233,32 +235,37 @@ public class TreePathFinder {
                     Arrays.asList(DirectedGraph.Option.REVERSE_ALPHABETIC));
 
             for (String successorVertexName : successors) {
+                /* Prune paths where the same node is visited twice (cycle) */
                 if (!node.getPath().getPathList().contains(successorVertexName)) {
                     newPath = new Path(node.getPath());
                     newPath.addVertexNameToPathList(successorVertexName);
                     newVertexPathWrapper = new VertexPathWrapper(successorVertexName, newPath);
 
+                    /* Recursively search the given successors's children up to a given depth */
                     Pair<VertexPathWrapper, Boolean> foundRemaining = depthLimitedSearch(newVertexPathWrapper,
                             depth - 1, goalVertexName, searchHistory);
 
                     if (foundRemaining.getLeft() != null) {
+                        /* We did find the goal vertex, and we also have unexplored vertices remaining in the graph */
                         return Pair.of(foundRemaining.getLeft(), true);
                     }
 
                     if (foundRemaining.getRight() != null && foundRemaining.getRight()) {
+                        /* We didn't find the goal vertex, but we do have unexplored vertices remaining in the graph */
                         anyRemaining = true;
                     }
                 }
             }
 
+            /* We didn't find the goal vertex, we may or may not have and unexplored vertices left in the graph */
             return Pair.of(null, anyRemaining);
         }
 
-        // SHOULD BE UNREACHABLE
+        /* SHOULD BE UNREACHABLE */
         return Pair.of(null, null);
     }
 
-    // https://en.wikipedia.org/wiki/Iterative_deepening_depth-first_search
+    /* https://en.wikipedia.org/wiki/Iterative_deepening_depth-first_search */
     public PathData iterativeDeepeningDepthFirstSearch(String goalVertexName, String startVertexName) {
         VertexPathWrapper startVertexPathWrapper = new VertexPathWrapper(startVertexName,
                 new Path(Arrays.asList(startVertexName)));
@@ -266,17 +273,22 @@ public class TreePathFinder {
         Path searchHistory = new Path();
 
         for (int depth = 0; depth < Integer.MAX_VALUE; depth++) {
+            /* Search for the goal vertex using depth limited search up to a given depth */
             Pair<VertexPathWrapper, Boolean> foundRemaining = depthLimitedSearch(startVertexPathWrapper, depth,
                     goalVertexName, searchHistory);
 
+            /* If we found the goal vertex, update the path and terminate */
             if (foundRemaining.getLeft() != null) {
                 path = foundRemaining.getLeft().getPath();
                 break;
-            } else if (foundRemaining.getRight() != null && !foundRemaining.getRight()) {
+            } 
+            /* If no unexplored vertices left remaining in the graph, terminate, unsuccessful */
+            else if (foundRemaining.getRight() != null && !foundRemaining.getRight()) {
                 break;
             }
         }
 
+        /* Return the result, regardless of success or failure */
         return new PathData(path, searchHistory);
     }
 
