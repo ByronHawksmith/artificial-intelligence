@@ -249,25 +249,26 @@ public class TreePathFinder {
         }
 
         // SHOULD BE UNREACHABLE
-        return null;
+        return Pair.of(null, null);
     }
 
     // https://en.wikipedia.org/wiki/Iterative_deepening_depth-first_search
     public PathData iterativeDeepeningDepthFirstSearch(String goalVertexName, String startVertexName) {
         VertexPathWrapper startVertexPathWrapper = new VertexPathWrapper(startVertexName, new Path(Arrays.asList(startVertexName)));
+        Path path = null;
 
         for (int depth = 0; depth < Integer.MAX_VALUE; depth++) {
             Pair<VertexPathWrapper, Boolean> foundRemaining = depthLimitedSearch(goalVertexName, startVertexPathWrapper, depth);
 
             if (foundRemaining.getLeft() != null) {
-                return new PathData(foundRemaining.getLeft().getPath(), null);
+                path = foundRemaining.getLeft().getPath();
+                break;
             } else if (foundRemaining.getRight() != null && !foundRemaining.getRight()) {
-                return null;
+                break;
             }
         }
 
-        // SHOULD BE UNREACHABLE
-        return null;
+        return new PathData(path, null);
     }
 
     private boolean containsVertexName(final Collection<VertexPathWrapper> list, final String vertexName) {
